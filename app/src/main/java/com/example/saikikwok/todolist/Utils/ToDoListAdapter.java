@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.saikikwok.todolist.R;
@@ -20,7 +21,7 @@ import java.util.List;
  * Created by saikikwok on 8/30/16.
  */
 
-public class ToDoListAdapter extends BaseAdapter {
+public class ToDoListAdapter extends ViewHolderAdapter {
 
     private Context context;
     private List<Todo> todos;
@@ -45,25 +46,26 @@ public class ToDoListAdapter extends BaseAdapter {
         return i;
     }
 
+
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        ViewHolder viewHolder;
+    protected ViewHolderAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int position) {
+        View listView = LayoutInflater.from(context).inflate(R.layout.main_list_item, parent, false);
+        return new TodoListViewHolder(listView);
+    }
 
-        if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.main_list_item, viewGroup, false);
-            viewHolder = new ViewHolder();
-            viewHolder.view = (TextView) view.findViewById(R.id.main_list_item_text);
-            view.setTag(viewHolder);
-        } else {
-            viewHolder = (ViewHolder)view.getTag();
+    @Override
+    protected void onBindViewHolder(ViewHolderAdapter.ViewHolder viewHolder, int position) {
+        Todo todo = (Todo) getItem(position);
+        ((TodoListViewHolder) viewHolder).todoText.setText(todo.getTask());
+    }
+
+    public static class TodoListViewHolder extends ViewHolderAdapter.ViewHolder {
+        TextView todoText;
+        public TodoListViewHolder(@NonNull View view) {
+            super(view);
+            todoText = (TextView)view.findViewById(R.id.main_list_item_text);
         }
-
-        Todo todo = todos.get(i);
-        viewHolder.view.setText(todo.getTask());
-        return view;
     }
 
-    private class ViewHolder {
-        TextView view;
-    }
+
 }
