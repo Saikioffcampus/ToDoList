@@ -6,4 +6,11 @@
     <dimen name="fab_margin">24dp</dimen>
     <dimen name="checkbox_text_margin">16dp</dimen>
     <dimen name="margin_medium">12dp</dimen>
+    <dimen name="height_appbar">168dp</dimen>
+    <dimen name="space_medium_large">16dp</dimen>
+    <dimen name="task_edit_view_marginbottom">32dp</dimen>
+    <dimen name="edit_top_margin">44dp</dimen>
+    <dimen name="icon_size">24dp</dimen>
+    <dimen name="space_small">12dp</dimen>
+    <dimen name="tasks_font_size">18sp</dimen>
 </resources>
