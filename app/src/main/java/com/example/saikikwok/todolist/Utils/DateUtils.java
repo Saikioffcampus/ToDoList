@@ -2,6 +2,8 @@ package com.example.saikikwok.todolist.Utils;
 
 import android.support.annotation.NonNull;
 
+import com.example.saikikwok.todolist.Models.Todo;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -43,6 +45,14 @@ public class DateUtils {
 
     public static String dateToStringTime(Date date) {
         return dateFormatTime.format(date);
+    }
+
+    public static Calendar getCalendarFromTodo(Todo todo) {
+        Calendar c = Calendar.getInstance();
+        if (todo != null) {
+            c.setTime(todo.getInvokedDate());
+        }
+        return c;
     }
 
 }
