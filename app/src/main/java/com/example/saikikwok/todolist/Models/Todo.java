@@ -17,7 +17,9 @@ public class Todo implements Parcelable {
     private boolean done;
     private Date invokedDate;
 
-    public Todo() {}
+    public Todo() {
+        this.id = UUID.randomUUID().toString();
+    }
 
     public Todo(String task, Date invokedDate) {
         this.id = UUID.randomUUID().toString();

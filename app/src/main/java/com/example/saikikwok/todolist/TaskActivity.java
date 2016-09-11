@@ -1,16 +1,21 @@
 package com.example.saikikwok.todolist;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.DatePicker;
@@ -25,6 +30,7 @@ import com.example.saikikwok.todolist.Utils.TextUtils;
 import com.example.saikikwok.todolist.Utils.TimePickerFragment;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by saikikwok on 8/30/16.
@@ -32,7 +38,10 @@ import java.util.Calendar;
 
 public class TaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
+    public static final String KEY_TASK_DETAILS = "task_details";
+
     private Todo todo;
+    private Date dateAndTime;
 
     private EditText taskDetails;
     private CheckBox checkBox;
@@ -45,6 +54,15 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.task_details);
         setupUI();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupUI() {
@@ -74,6 +92,17 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         setupCheckbox();
         setupDatePicker();
         setupTimePicker();
+        setupSaveButton();
+    }
+
+    private void setupSaveButton() {
+        FloatingActionButton saveBtn = (FloatingActionButton) findViewById(R.id.task_done_fab);
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveAndExit();
+            }
+        });
     }
 
     private void setupDelete() {
@@ -136,7 +165,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
     public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
         Calendar c = DateUtils.getCalendarFromTodo(todo);
         c.set(i, i1, i2);
-        //todo.setInvokedDate(c.getTime());
+        dateAndTime = c.getTime();
         dateRemind.setText(DateUtils.dateToStringDate(c.getTime()));
     }
 
@@ -146,6 +175,24 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         Calendar c = DateUtils.getCalendarFromTodo(todo);
         c.set(Calendar.HOUR_OF_DAY, i);
         c.set(Calendar.MINUTE, i1);
+        dateAndTime = c.getTime();
         timeRemind.setText(DateUtils.dateToStringTime(c.getTime()));
     }
+
+
+    private void saveAndExit() {
+        if (todo == null) {
+            todo = new Todo();
+        }
+        todo.setTask(taskDetails.getText().toString());
+        todo.setInvokedDate(dateAndTime);
+        todo.setDone(checkBox.isChecked());
+
+        Intent res = new Intent();
+        res.putExtra(KEY_TASK_DETAILS, todo);
+        setResult(Activity.RESULT_OK, res);
+        finish();
+
+    }
+
 }
