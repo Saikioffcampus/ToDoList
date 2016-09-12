@@ -39,6 +39,7 @@ import java.util.Date;
 public class TaskActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     public static final String KEY_TASK_DETAILS = "task_details";
+    public static final String KEY_TASK_ID = "task_id";
 
     private Todo todo;
     private Date dateAndTime;
@@ -94,6 +95,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         setupDatePicker();
         setupTimePicker();
         setupSaveButton();
+        setupDelete();
     }
 
     private void setupSaveButton() {
@@ -159,6 +161,10 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
     }
 
     private void delete() {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_TASK_ID, todo.getId());
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
 
 

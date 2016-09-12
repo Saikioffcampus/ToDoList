@@ -59,9 +59,25 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQ_CODE_TASK_DETAILS && resultCode == Activity.RESULT_OK) {
-            Todo todo = data.getParcelableExtra(TaskActivity.KEY_TASK_DETAILS);
-            updateTodos(todo);
+            String id = data.getStringExtra(TaskActivity.KEY_TASK_ID);
+            if (id != null) {
+                deleteAndUpdateTodos(id);
+            } else {
+                Todo todo = data.getParcelableExtra(TaskActivity.KEY_TASK_DETAILS);
+                updateTodos(todo);
+            }
         }
+    }
+
+    private void deleteAndUpdateTodos(String id) {
+        for (int i = 0; i < todos.size(); i++) {
+            if (TextUtils.equals(todos.get(i).getId(), id)) {
+                todos.remove(i);
+                break;
+            }
+        }
+        ModelUtils.save(this, SP_KEYWORD_TODOS, todos);
+        adapter.notifyDataSetChanged();
     }
 
     private void updateTodos(Todo todo) {
