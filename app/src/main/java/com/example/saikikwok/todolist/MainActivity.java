@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.ListView;
 
 import com.example.saikikwok.todolist.Models.Todo;
+import com.example.saikikwok.todolist.Utils.ModelUtils;
 import com.example.saikikwok.todolist.Utils.ToDoListAdapter;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,6 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static final int REQ_CODE_TASK_DETAILS = 100;
 
+    public static final String SP_KEYWORD_TODOS = "todos";
+
     private List<Todo> todos;
     private ToDoListAdapter adapter;
 
@@ -27,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setupUI(fakedata());
+        loadDataFromSP();
+        setupUI();
     }
 
-    private void setupUI(List<Todo> todos) {
+    private void setupUI() {
         ListView listView = (ListView)findViewById(R.id.todoList_listview);
         adapter = new ToDoListAdapter(this, todos);
         listView.setAdapter(adapter);
@@ -72,11 +77,26 @@ public class MainActivity extends AppCompatActivity {
         if (!found) {
             todos.add(todo);
         }
+        ModelUtils.save(this, SP_KEYWORD_TODOS, todos);
+        adapter.notifyDataSetChanged();
+    }
+
+    public void updateTodo(int index, boolean isDone) {
+        Todo todo = todos.get(index);
+        todo.setDone(isDone);
+        ModelUtils.save(this, SP_KEYWORD_TODOS, todos);
         adapter.notifyDataSetChanged();
     }
 
     private List<Todo> fakedata() {
         todos = new ArrayList<>();
         return todos;
+    }
+
+    private void loadDataFromSP() {
+        todos = ModelUtils.read(this, SP_KEYWORD_TODOS, new TypeToken<List<Todo>>(){});
+        if (todos == null) {
+            todos = new ArrayList<>();
+        }
     }
 }
