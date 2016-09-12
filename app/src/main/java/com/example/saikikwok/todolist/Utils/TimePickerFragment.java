@@ -28,20 +28,11 @@ public class TimePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Calendar c = getCalendarFromTodo();
+        Calendar c = DateUtils.getCalendarFromTodo(t);
         return new TimePickerDialog(getActivity(), listener,
                 c.get(Calendar.HOUR_OF_DAY),
                 c.get(Calendar.MINUTE), DateFormat.is24HourFormat(getActivity()));
 
-    }
-
-
-    private Calendar getCalendarFromTodo() {
-        Calendar c = Calendar.getInstance();
-        if (t != null) {
-            c.setTime(t.getInvokedDate());
-        }
-        return c;
     }
 
 }

@@ -49,7 +49,7 @@ public class DateUtils {
 
     public static Calendar getCalendarFromTodo(Todo todo) {
         Calendar c = Calendar.getInstance();
-        if (todo != null) {
+        if (todo != null && todo.getInvokedDate() != null) {
             c.setTime(todo.getInvokedDate());
         }
         return c;

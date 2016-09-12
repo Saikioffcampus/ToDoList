@@ -31,7 +31,7 @@ public class DatePickerFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        Calendar c = getCalendarFromTodo();
+        Calendar c = DateUtils.getCalendarFromTodo(t);
         return new DatePickerDialog(getActivity(), listener,
                 c.get(Calendar.YEAR),
                 c.get(Calendar.MONTH),
@@ -40,13 +40,7 @@ public class DatePickerFragment extends DialogFragment {
     }
 
 
-    private Calendar getCalendarFromTodo() {
-        Calendar c = Calendar.getInstance();
-        if (t != null) {
-            c.setTime(t.getInvokedDate());
-        }
-        return c;
-    }
+
 
 
 }
