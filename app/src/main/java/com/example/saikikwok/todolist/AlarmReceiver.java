@@ -1,4 +1,4 @@
-package com.example.saikikwok.todolist.Utils;
+package com.example.saikikwok.todolist;
 
 import android.app.Notification;
 import android.app.NotificationManager;

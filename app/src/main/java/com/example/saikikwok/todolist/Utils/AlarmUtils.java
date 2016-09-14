@@ -5,11 +5,11 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.example.saikikwok.todolist.AlarmReceiver;
 import com.example.saikikwok.todolist.Models.Todo;
 import com.example.saikikwok.todolist.TaskActivity;
 
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by saikikwok on 9/13/16.
@@ -30,7 +30,7 @@ public class AlarmUtils {
         PendingIntent sender = PendingIntent.getBroadcast(context, uniqueReqId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        am.set(AlarmManager.RTC_WAKEUP, todo.getInvokedDate().getTime(), sender);
+        am.set(AlarmManager.RTC_WAKEUP, c.getTime().getTime() + 3000, sender);
 
     }
 

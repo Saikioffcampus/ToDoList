@@ -199,7 +199,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         todo.setInvokedDate(dateAndTime);
         todo.setDone(checkBox.isChecked());
 
-        //updateAlarm();
+        updateAlarm();
 
         Intent res = new Intent();
         res.putExtra(KEY_TASK_DETAILS, todo);
