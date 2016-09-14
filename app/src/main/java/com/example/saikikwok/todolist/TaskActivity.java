@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -24,8 +25,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.saikikwok.todolist.Models.Todo;
+import com.example.saikikwok.todolist.Utils.AlarmUtils;
 import com.example.saikikwok.todolist.Utils.DatePickerFragment;
 import com.example.saikikwok.todolist.Utils.DateUtils;
+import com.example.saikikwok.todolist.Utils.ModelUtils;
 import com.example.saikikwok.todolist.Utils.TextUtils;
 import com.example.saikikwok.todolist.Utils.TimePickerFragment;
 
@@ -164,6 +167,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         Intent intent = new Intent();
         intent.putExtra(KEY_TASK_ID, todo.getId());
         setResult(Activity.RESULT_OK, intent);
+        //AlarmUtils.cancelAlarm(this, 0, todo);
         finish();
     }
 
@@ -195,11 +199,19 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         todo.setInvokedDate(dateAndTime);
         todo.setDone(checkBox.isChecked());
 
+        //updateAlarm();
+
         Intent res = new Intent();
         res.putExtra(KEY_TASK_DETAILS, todo);
         setResult(Activity.RESULT_OK, res);
         finish();
 
+    }
+
+    private void updateAlarm() {
+        //ModelUtils.saveString(getApplicationContext(), todo.getId(), DateUtils.dateToString(dateAndTime), ModelUtils.PREF_NAME_ALARM);
+        // Todo(Saiki) setalarm();
+        AlarmUtils.setAlarm(this, 0, todo);
     }
 
 }

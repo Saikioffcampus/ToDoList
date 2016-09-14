@@ -76,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             }
         }
-        ModelUtils.save(this, SP_KEYWORD_TODOS, todos);
+        ModelUtils.save(this, SP_KEYWORD_TODOS, todos, ModelUtils.PREF_NAME);
         adapter.notifyDataSetChanged();
     }
 
@@ -93,14 +93,14 @@ public class MainActivity extends AppCompatActivity {
         if (!found) {
             todos.add(todo);
         }
-        ModelUtils.save(this, SP_KEYWORD_TODOS, todos);
+        ModelUtils.save(this, SP_KEYWORD_TODOS, todos, ModelUtils.PREF_NAME);
         adapter.notifyDataSetChanged();
     }
 
     public void updateTodo(int index, boolean isDone) {
         Todo todo = todos.get(index);
         todo.setDone(isDone);
-        ModelUtils.save(this, SP_KEYWORD_TODOS, todos);
+        ModelUtils.save(this, SP_KEYWORD_TODOS, todos, ModelUtils.PREF_NAME);
         adapter.notifyDataSetChanged();
     }
 
