@@ -17,28 +17,26 @@ import java.util.Calendar;
 
 public class AlarmUtils {
 
-    public static void setAlarm(Context context, int uniqueReqId, Todo todo) {
+    public static void setAlarm(Context context, Todo todo) {
         Calendar c = Calendar.getInstance();
         if (todo.getInvokedDate() == null || todo.getInvokedDate().compareTo(c.getTime()) < 0) {
+            cancelAlarm(context, todo);
             return;
         }
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(TaskActivity.KEY_TASK_DETAILS, todo);
-        intent.putExtra("RequestCode", uniqueReqId);
         //intent.setData(Uri.parse("timer:" + id));
         //intent.setFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
-        PendingIntent sender = PendingIntent.getBroadcast(context, uniqueReqId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(context, todo.getAlarmId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-        am.set(AlarmManager.RTC_WAKEUP, c.getTime().getTime() + 3000, sender);
+        am.set(AlarmManager.RTC_WAKEUP, todo.getInvokedDate().getTime(), sender);
 
     }
 
-    public static void cancelAlarm(Context context, int uniqueReqId, Todo todo) {
+    public static void cancelAlarm(Context context, Todo todo) {
         Intent intent = new Intent(context, AlarmReceiver.class);
         intent.putExtra(TaskActivity.KEY_TASK_DETAILS, todo);
-        intent.putExtra("RequestCode", uniqueReqId);
-        PendingIntent sender = PendingIntent.getBroadcast(context, uniqueReqId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent sender = PendingIntent.getBroadcast(context, todo.getAlarmId(), intent, PendingIntent.FLAG_UPDATE_CURRENT);
         AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
         am.cancel(sender);
     }

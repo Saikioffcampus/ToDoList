@@ -28,16 +28,19 @@ public class AlarmReceiver extends BroadcastReceiver {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.ic_access_alarm_black_24dp)
                 .setContentTitle(todo.getTask())
-                .setContentText(todo.getTask());
+                .setContentText(todo.getTask())
+                .setAutoCancel(true);
 
         Intent returnIntent = new Intent(context, TaskActivity.class);
         returnIntent.putExtra(TaskActivity.KEY_TASK_DETAILS, todo);
 
-        PendingIntent returnPendingIntent = PendingIntent.getActivity(context, 0, returnIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent returnPendingIntent = PendingIntent.getActivity(context, 0, returnIntent, PendingIntent.FLAG_ONE_SHOT);
         builder.setContentIntent(returnPendingIntent);
 
         NotificationManager nm = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        nm.notify(notificationId, builder.build());
+        nm.notify(todo.getAlarmId(), builder.build());
+
+        // TODO(Saiki) fix bugs on
 
     }
 

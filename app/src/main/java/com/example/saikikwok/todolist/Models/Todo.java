@@ -16,13 +16,16 @@ public class Todo implements Parcelable {
     private String task;
     private boolean done;
     private Date invokedDate;
+    private int alarmId;
 
     public Todo() {
         this.id = UUID.randomUUID().toString();
+        this.alarmId = (int) System.currentTimeMillis();
     }
 
     public Todo(String task, Date invokedDate) {
         this.id = UUID.randomUUID().toString();
+        this.alarmId = (int) System.currentTimeMillis();
         this.task = task;
         this.done = false;
         this.invokedDate = invokedDate;
@@ -46,6 +49,7 @@ public class Todo implements Parcelable {
         this.done = in.readByte() != 0;
         long date = in.readLong();
         this.invokedDate = date == 0 ? null : new Date(date);
+        this.alarmId = in.readInt();
     }
 
 
@@ -81,6 +85,14 @@ public class Todo implements Parcelable {
         this.invokedDate = invokedDate;
     }
 
+    public int getAlarmId() {
+        return alarmId;
+    }
+
+    public void setAlarmId(int alarmId) {
+        this.alarmId = alarmId;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -92,5 +104,6 @@ public class Todo implements Parcelable {
         parcel.writeString(task);
         parcel.writeByte((byte) (done ? 1 : 0));
         parcel.writeLong(invokedDate == null ? 0 : invokedDate.getTime());
+        parcel.writeInt(alarmId);
     }
 }

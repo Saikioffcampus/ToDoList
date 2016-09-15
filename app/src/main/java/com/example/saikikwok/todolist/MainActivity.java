@@ -20,6 +20,12 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    /**
+     *  Todo : 1. renew todo after entering TaskActivity via notification,
+        Todo: 2. store edited data if TaskActivity is entered via notifivation
+     */
+
+
     public static final int REQ_CODE_TASK_DETAILS = 100;
 
     public static final String SP_KEYWORD_TODOS = "todos";

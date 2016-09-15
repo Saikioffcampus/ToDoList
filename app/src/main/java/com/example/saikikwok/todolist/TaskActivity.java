@@ -167,7 +167,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         Intent intent = new Intent();
         intent.putExtra(KEY_TASK_ID, todo.getId());
         setResult(Activity.RESULT_OK, intent);
-        //AlarmUtils.cancelAlarm(this, 0, todo);
+        AlarmUtils.cancelAlarm(this, todo);
         finish();
     }
 
@@ -199,7 +199,7 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
         todo.setInvokedDate(dateAndTime);
         todo.setDone(checkBox.isChecked());
 
-        updateAlarm();
+        AlarmUtils.setAlarm(this, todo);
 
         Intent res = new Intent();
         res.putExtra(KEY_TASK_DETAILS, todo);
@@ -208,10 +208,5 @@ public class TaskActivity extends AppCompatActivity implements DatePickerDialog.
 
     }
 
-    private void updateAlarm() {
-        //ModelUtils.saveString(getApplicationContext(), todo.getId(), DateUtils.dateToString(dateAndTime), ModelUtils.PREF_NAME_ALARM);
-        // Todo(Saiki) setalarm();
-        AlarmUtils.setAlarm(this, 0, todo);
-    }
 
 }
