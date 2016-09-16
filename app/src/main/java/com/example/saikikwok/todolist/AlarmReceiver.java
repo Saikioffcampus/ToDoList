@@ -45,7 +45,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         stackBuilder.addParentStack(MainActivity.class);
         stackBuilder.addNextIntent(returnIntent);
 
-        PendingIntent returnPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent returnPendingIntent = stackBuilder.getPendingIntent(todo.getAlarmId(), PendingIntent.FLAG_UPDATE_CURRENT);
 
         builder.setContentIntent(returnPendingIntent);
 
